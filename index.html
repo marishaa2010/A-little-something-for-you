@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050713">
+  <title>A Little Note ♡</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      min-height: 100svh;
+      background: #050713;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .stage {
+      position: relative;
+      width: min(100vw, 56.25vh);
+      width: min(100vw, 56.25svh);
+      height: min(100svh, 177.78vw);
+      display: grid;
+      place-items: center;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(34px) scale(.985);
+      transition: opacity .55s ease, transform .55s ease, visibility .55s;
+      pointer-events: none;
+    }
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0) scale(1);
+      pointer-events: auto;
+    }
+    .slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .next {
+      position: absolute;
+      left: 22%;
+      width: 56%;
+      height: 8%;
+      bottom: 8%;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* The button artwork is part of each reference image; this invisible
+       hit-area makes it genuinely clickable without changing its appearance. */
+    .slide:nth-child(1) .next { bottom: 10.1%; height: 8.2%; }
+    .slide:nth-child(2) .next { bottom: 8.8%; height: 8.5%; }
+    .slide:nth-child(3) .next { bottom: 5.8%; height: 8.2%; }
+    .slide:nth-child(4) .next { bottom: 5.5%; height: 8.2%; }
+    .slide:nth-child(5) .next,
+    .slide:nth-child(6) .next { bottom: 3.4%; height: 9%; }
+    .next:focus-visible {
+      outline: 3px solid #ff9bd1;
+      outline-offset: 4px;
+      background: rgba(255, 155, 209, .12);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slide { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-label="A little note">
+    <section class="slide active" aria-label="Slide 1">
+      <img src="assets/slide1.jpg" alt="A little note: this is just a little attempt from my side to bring a tiny smile on your face.">
+      <button class="next" aria-label="Come in, next slide"></button>
+    </section>
+    <section class="slide" aria-label="Slide 2">
+      <img src="assets/slide2.jpg" alt="You deserve little moments of happiness, even on the not-so-happy days.">
+      <button class="next" aria-label="There's more, next slide"></button>
+    </section>
+    <section class="slide" aria-label="Slide 3">
+      <img src="assets/slide3.jpg" alt="What you lost wasn't just an account. You're a lot more than that account.">
+      <button class="next" aria-label="Next slide"></button>
+    </section>
+    <section class="slide" aria-label="Slide 4">
+      <img src="assets/slide4.jpg" alt="It's your talent, your passion and your determination. It's you.">
+      <button class="next" aria-label="Next slide"></button>
+    </section>
+    <section class="slide" aria-label="Slide 5">
+      <img src="assets/slide5.jpg" alt="A note celebrating your dancing and the magic you bring.">
+      <button class="next" aria-label="Next slide"></button>
+    </section>
+    <section class="slide" aria-label="Slide 6">
+      <img src="assets/slide6.jpg" alt="A note celebrating your beauty, life and joy.">
+      <button class="next" aria-label="Next slide"></button>
+    </section>
+    <section class="slide" aria-label="Slide 7">
+      <img src="assets/slide7.jpg" alt="A final message of encouragement and belief in you.">
+    </section>
+  </main>
+  <script>
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    let current = 0;
+    let locked = false;
+
+    function showSlide(index) {
+      if (locked || index < 0 || index >= slides.length) return;
+      locked = true;
+      slides[current].classList.remove("active");
+      current = index;
+      slides[current].classList.add("active");
+      window.setTimeout(() => { locked = false; }, 560);
+    }
+
+    document.querySelectorAll(".next").forEach((button, index) => {
+      button.addEventListener("click", () => showSlide(index + 1));
+    });
+
+  </script>
+</body>
+</html>
